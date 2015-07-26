@@ -34,13 +34,17 @@ public class SignPacketListener extends PacketAdapter {
 		
 		for (WrappedChatComponent component : lines) {
 			
+			if (component == null || component.getJson() == null) {
+				continue;
+			}
+			
 			String json = component.getJson();
 			
 			if (PlaceholderAPI.getPlaceholderPattern().matcher(json).find()) {
+				
 				json = PlaceholderAPI.setPlaceholders(e.getPlayer(), json);
+				component.setJson(json);
 			}
-			
-			component.setJson(json);
 		}
 		
 		packet.setLines(lines);
