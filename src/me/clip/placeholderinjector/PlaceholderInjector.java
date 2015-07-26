@@ -4,7 +4,6 @@ import me.clip.placeholderinjector.chat.ChatListener;
 import me.clip.placeholderinjector.chat.ChatPacketListener;
 import me.clip.placeholderinjector.inventory.InventoryWindowPacketListener;
 import me.clip.placeholderinjector.inventory.InventorySetSlotPacketListener;
-import me.clip.placeholderinjector.inventory.InventoryItemsPacketListener;
 import me.clip.placeholderinjector.sign.SignChangeListener;
 import me.clip.placeholderinjector.sign.SignPacketListener;
 import me.clip.placeholderinjector.tab.TabPacketListener;
@@ -39,7 +38,8 @@ public class PlaceholderInjector extends JavaPlugin {
 				getLogger().info("Intercepting inventory packets for placeholders");
 				new InventorySetSlotPacketListener(this);
 				new InventoryWindowPacketListener(this);
-				new InventoryItemsPacketListener(this);
+				// causing duplication issues when placing chests when an item in the hotbar has a placeholder
+				//new InventoryItemsPacketListener(this);
 			}
 			
 			if (getConfig().getBoolean("title.enabled")) {
@@ -54,14 +54,14 @@ public class PlaceholderInjector extends JavaPlugin {
 			
 			if (getConfig().getBoolean("signs.enabled")) {
 				getLogger().info("Intercepting sign packets for placeholders");
-				new SignPacketListener(this);
+				new SignPacketListener(this, getConfig().getInt("signs.update_interval", 0));
 				new SignChangeListener(this);
 			}
 			
 			if (getConfig().getBoolean("holographicdisplays.enabled")) {
 				
 				if (Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) {
-					new HolographicDisplaysInjector(this, getConfig().getInt("holographicdisplays.update_interval"));
+					new HolographicDisplaysInjector(this, getConfig().getInt("holographicdisplays.update_interval", 60));
 				}
 			}			
 			
@@ -103,6 +103,7 @@ public class PlaceholderInjector extends JavaPlugin {
 				+ "\nAllow placeholders in signs:"
 				+ "\nsigns:"
 				+ "\n  enabled: true/false"
+				+ "\n  update_interval: <time in seconds to update sign placeholders, 0 to disable>"
 				+ "\n"
 				+ "\nAllow placeholders in HolographicDisplays holograms"
 				+ "\nholographicdisplays:"
@@ -132,6 +133,7 @@ public class PlaceholderInjector extends JavaPlugin {
 		c.addDefault("title.enabled", true);
 		c.addDefault("tab.enabled", true);
 		c.addDefault("signs.enabled", true);
+		c.addDefault("signs.update_interval", 30);
 		
 		c.addDefault("holographicdisplays.enabled", true);
 		c.addDefault("holographicdisplays.update_interval", 30);

@@ -1,6 +1,7 @@
 package me.clip.placeholderinjector.holographicdisplays;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -69,10 +70,14 @@ public class HolographicDisplaysInjector {
 			@Override
 			public void run() {
 
-				for (CraftHologram h : holograms) {
+				Iterator<CraftHologram> iterator = holograms.iterator();
+				
+				while (iterator.hasNext()) {
+					
+					CraftHologram h = iterator.next();
 					
 					if (h.isDeleted()) {
-						holograms.remove(h);
+						iterator.remove();
 						return;
 					}
 					
