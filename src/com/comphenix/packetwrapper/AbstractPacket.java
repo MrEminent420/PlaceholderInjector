@@ -16,7 +16,7 @@
  *  02111-1307 USA
  */
 
-package me.clip.placeholderinjector.inventory;
+package com.comphenix.packetwrapper;
 
 import java.lang.reflect.InvocationTargetException;
 

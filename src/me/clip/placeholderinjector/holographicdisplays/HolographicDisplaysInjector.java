@@ -27,6 +27,9 @@ import com.gmail.filoghost.holographicdisplays.nms.interfaces.entity.NMSEntityBa
 import com.gmail.filoghost.holographicdisplays.object.CraftHologram;
 import com.gmail.filoghost.holographicdisplays.util.VersionUtils;
 
+/**
+@author filoghost, extended_clip, GGhost
+*/
 public class HolographicDisplaysInjector {
 
 	private PlaceholderInjector plugin;
@@ -54,7 +57,7 @@ public class HolographicDisplaysInjector {
 		
 		addPacketListener();
 		
-		plugin.getLogger().info("Intercepting entity packets for HolographicDisplays placeholders");
+		plugin.getLogger().info("Intercepting hologram packets for HolographicDisplays placeholders");
 		
 		startTask();
 	}
@@ -144,7 +147,6 @@ public class HolographicDisplaysInjector {
 					}
 
 					if (entity.getType() != EntityType.HORSE && !VersionUtils.isArmorstand(entity.getType())) {
-						// Enough, only horses and armorstands are used with custom names.
 						return;
 					}
 					
