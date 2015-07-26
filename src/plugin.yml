@@ -1,0 +1,10 @@
+name: PlaceholderInjector
+main: me.clip.placeholderinjector.PlaceholderInjector
+version: 1.2
+author: extended_clip
+description: Inject PlaceholderAPI placeholders into everything!
+softdepend: [ProtocolLib, PlaceholderAPI, HolographicDisplays]
+permissions:
+    placeholderinjector.chat.bypass:
+        description: ability to use placeholders in chat
+        default: op
