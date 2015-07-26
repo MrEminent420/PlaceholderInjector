@@ -1,7 +1,5 @@
 package me.clip.placeholderinjector.inventory;
 
-
-
 import java.util.ArrayList;
 
 import org.bukkit.inventory.ItemStack;
@@ -30,9 +28,13 @@ public class InventoryItemsPacketListener extends PacketAdapter{
 	@Override
 	public void onPacketSending(PacketEvent e) {
 		
+		if (e.getPlayer() == null) {
+			return;
+		}
+		
 		WrapperPlayServerWindowItems packet = new WrapperPlayServerWindowItems(e.getPacket());
 		
-		if (e.getPlayer() == null || packet.getWindowId() == 0) {
+		if (packet.getWindowId() == 0) {
 			return;
 		}
 			

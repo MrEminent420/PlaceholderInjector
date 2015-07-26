@@ -24,12 +24,12 @@ public class TitlePacketListener extends PacketAdapter {
 	@Override
 	public void onPacketSending(PacketEvent e) {
 		
-		WrapperPlayServerTitle packet = new WrapperPlayServerTitle(e.getPacket());
-		
 		if (e.getPlayer() == null) {
 			return;
 		}
 		
+		WrapperPlayServerTitle packet = new WrapperPlayServerTitle(e.getPacket());
+
 		if (packet.getTitle() == null) {
 			return;
 		}

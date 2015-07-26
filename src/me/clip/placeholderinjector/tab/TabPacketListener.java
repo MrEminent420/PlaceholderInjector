@@ -24,12 +24,12 @@ public class TabPacketListener extends PacketAdapter {
 	@Override
 	public void onPacketSending(PacketEvent e) {
 		
-		WrapperPlayServerPlayerListHeaderFooter  packet = new WrapperPlayServerPlayerListHeaderFooter(e.getPacket());
-		
 		if (e.getPlayer() == null) {
 			return;
 		}
 		
+		WrapperPlayServerPlayerListHeaderFooter  packet = new WrapperPlayServerPlayerListHeaderFooter(e.getPacket());
+
 		if (packet.getHeader() != null) {
 			
 			WrappedChatComponent wcpHeader = packet.getHeader();

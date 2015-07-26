@@ -26,9 +26,13 @@ public class InventoryWindowPacketListener extends PacketAdapter {
 	@Override
 	public void onPacketSending(PacketEvent e) {
 		
+		if (e.getPlayer() == null) {
+			return;
+		}
+		
 		WrapperPlayServerOpenWindow packet = new WrapperPlayServerOpenWindow(e.getPacket());
 		
-		if (e.getPlayer() == null || packet.getWindowID() == 0) {
+		if (packet.getWindowID() == 0) {
 			return;
 		}
 

@@ -96,6 +96,10 @@ public class HolographicDisplaysInjector {
 					return;
 				}
 				
+				if (event.getPlayer() == null) {
+					return;
+				}
+				
 				PacketContainer packet = event.getPacket();
 
 				if (packet.getType() == PacketType.Play.Server.SPAWN_ENTITY_LIVING) {
