@@ -1,8 +1,9 @@
 package me.clip.placeholderinjector.sign;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -25,7 +26,7 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 */
 public class SignPacketListener extends PacketAdapter {
 	
-	private final Set<Location> signs = new HashSet<Location>();
+	private final Map<String, Location> signs = new HashMap<String, Location>();
 	
 	private PlaceholderInjector plugin;
 	
@@ -47,27 +48,34 @@ public class SignPacketListener extends PacketAdapter {
 	}
 	
 	private void startTask() {
-		Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
+
+		Bukkit.getScheduler().runTaskTimer(plugin, new Runnable() {
 			
 			@Override
 			public void run() {
 
-				Iterator<Location> locs = signs.iterator();
+				Iterator<Entry<String, Location>> locs = signs.entrySet().iterator();
 				
 				while (locs.hasNext()) {
 					
-					Location l = locs.next();
+					Entry<String, Location> entry = locs.next();
+					
+					Location l = entry.getValue();
+					
+					if (!l.getChunk().isLoaded()) {
+						locs.remove();
+						continue;
+					}
 					
 					Block b = l.getWorld().getBlockAt(l);
 					
 					if (b == null || (!(b.getState() instanceof Sign))) {
-						
 						locs.remove();
 						continue;
 					}
 					
 					Sign s = (Sign) b.getState();
-					
+						
 					s.update();
 				}
 			}
@@ -99,8 +107,9 @@ public class SignPacketListener extends PacketAdapter {
 			
 			if (PlaceholderAPI.getPlaceholderPattern().matcher(json).find()) {
 				
-				if (!signs.contains(1) && updateInterval > 0) {
-					signs.add(l);
+				if (!signs.containsKey(l.toString()) && updateInterval > 0) {
+					
+					signs.put(l.toString(), l);
 				}
 				
 				json = PlaceholderAPI.setPlaceholders(e.getPlayer(), json);

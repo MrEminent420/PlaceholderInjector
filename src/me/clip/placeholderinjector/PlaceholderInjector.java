@@ -54,7 +54,7 @@ public class PlaceholderInjector extends JavaPlugin {
 			
 			if (getConfig().getBoolean("signs.enabled")) {
 				getLogger().info("Intercepting sign packets for placeholders");
-				new SignPacketListener(this, getConfig().getInt("signs.update_interval", 0));
+				new SignPacketListener(this, getConfig().getInt("signs.update_interval", 30));
 				new SignChangeListener(this);
 			}
 			
