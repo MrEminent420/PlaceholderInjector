@@ -57,7 +57,7 @@ public class ChatListener implements Listener {
 		
 		if (matcher.find()) {
 			format = PlaceholderAPI.setPlaceholders(p, format);
-		}
+		}		
 		
 		e.setFormat(format);
 		

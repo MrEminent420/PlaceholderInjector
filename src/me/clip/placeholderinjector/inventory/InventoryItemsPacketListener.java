@@ -33,16 +33,13 @@ public class InventoryItemsPacketListener extends PacketAdapter{
 		}
 		
 		WrapperPlayServerWindowItems packet = new WrapperPlayServerWindowItems(e.getPacket());
-		
-		if (packet.getWindowId() == 0) {
-			return;
-		}
 			
 		ArrayList<ItemStack> newItems = new ArrayList<ItemStack>();
 		
 		for (ItemStack item : packet.getSlotData()) {
 			
 			if (item == null || item.getItemMeta() == null || !item.hasItemMeta())  {
+				newItems.add(item);
 				continue;
 			}
 				

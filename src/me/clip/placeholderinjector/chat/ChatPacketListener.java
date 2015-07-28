@@ -30,7 +30,14 @@ public class ChatPacketListener extends PacketAdapter {
 		
 		StructureModifier<WrappedChatComponent> chat = e.getPacket().getChatComponents();
 		
-		String msg = chat.read(0).getJson();
+		WrappedChatComponent c = chat.read(0);
+		
+		if (c == null) {
+			//is most likely a spigot BaseComponent[] message
+			return;
+		}
+		
+		String msg = c.getJson();
 		
 		if (msg == null || msg.isEmpty()) {
 			return;

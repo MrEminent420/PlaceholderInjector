@@ -1,6 +1,6 @@
 name: PlaceholderInjector
 main: me.clip.placeholderinjector.PlaceholderInjector
-version: 1.4.1
+version: 1.4.2
 author: [extended_clip, GGhost]
 description: Inject PlaceholderAPI placeholders into everything!
 softdepend: [ProtocolLib, PlaceholderAPI, HolographicDisplays]

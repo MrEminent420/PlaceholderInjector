@@ -38,7 +38,7 @@ public class PlaceholderInjector extends JavaPlugin {
 				getLogger().info("Intercepting inventory packets for placeholders");
 				new InventorySetSlotPacketListener(this);
 				new InventoryWindowPacketListener(this);
-				// causing duplication issues when placing chests when an item in the hotbar has a placeholder
+				
 				//new InventoryItemsPacketListener(this);
 			}
 			
