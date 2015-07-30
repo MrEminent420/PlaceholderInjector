@@ -2,6 +2,7 @@ package me.clip.placeholderinjector;
 
 import me.clip.placeholderinjector.chat.ChatListener;
 import me.clip.placeholderinjector.chat.ChatPacketListener;
+import me.clip.placeholderinjector.chat.SpigotChatPacketListener;
 import me.clip.placeholderinjector.inventory.InventoryWindowPacketListener;
 import me.clip.placeholderinjector.inventory.InventorySetSlotPacketListener;
 import me.clip.placeholderinjector.sign.SignChangeListener;
@@ -31,14 +32,18 @@ public class PlaceholderInjector extends JavaPlugin {
 			if (getConfig().getBoolean("chat.enabled")) {
 				getLogger().info("Intercepting chat packets for placeholders");
 				new ChatListener(this);
-				new ChatPacketListener(this);
+				if (getConfig().getBoolean("chat.intercept_spigot_chat_api_messages")) {
+					getLogger().info("Spigot chat API messages will also be intercepted");
+					new SpigotChatPacketListener(this);
+				} else {
+					new ChatPacketListener(this);
+				}	
 			}
 			
 			if (getConfig().getBoolean("inventory.enabled")) {
 				getLogger().info("Intercepting inventory packets for placeholders");
 				new InventorySetSlotPacketListener(this);
 				new InventoryWindowPacketListener(this);
-				
 				//new InventoryItemsPacketListener(this);
 			}
 			
@@ -85,8 +90,13 @@ public class PlaceholderInjector extends JavaPlugin {
 				+ "\nAllow placeholders in any chat window message from any plugin"
 				+ "\nIf you want to use placeholders in your essentials chat formatting"
 				+ "\nyou must use {<placeholder>} instead of %<placeholder>%"
+				+ "\nIf you would like messages created by the Spigot chat API intercepted also,"
+				+ "\n(json messages with hover text, click events, etc)"
+				+ "\nset intercept_spigot_chat_api_messages to true"
+				+ "\nSet to false if you are not using Spigot!"
 				+ "\nchat:"
 				+ "\n  enabled: true/false"
+				+ "\n  intercept_spigot_chat_api_messages: true/false"
 				+ "\n"
 				+ "\nAllow placeholders in any ItemStack name, lore, or inventory title"
 				+ "\ninventory: "
@@ -129,6 +139,7 @@ public class PlaceholderInjector extends JavaPlugin {
 		}
 		
 		c.addDefault("chat.enabled", true);
+		c.addDefault("chat.intercept_spigot_chat_api_messages", true);
 		c.addDefault("inventory.enabled", true);
 		c.addDefault("title.enabled", true);
 		c.addDefault("tab.enabled", true);

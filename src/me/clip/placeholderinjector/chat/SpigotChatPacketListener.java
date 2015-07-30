@@ -1,5 +1,7 @@
 package me.clip.placeholderinjector.chat;
 
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.chat.ComponentSerializer;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderinjector.PlaceholderInjector;
 
@@ -14,9 +16,9 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 /**
 @author extended_clip, GGhost
 */
-public class ChatPacketListener extends PacketAdapter {
+public class SpigotChatPacketListener extends PacketAdapter {
 
-	public ChatPacketListener(PlaceholderInjector i) {
+	public SpigotChatPacketListener(PlaceholderInjector i) {
 		super(i, ListenerPriority.HIGHEST, PacketType.Play.Server.CHAT);
 		ProtocolLibrary.getProtocolManager().addPacketListener(this);
 	}
@@ -32,7 +34,30 @@ public class ChatPacketListener extends PacketAdapter {
 		
 		WrappedChatComponent c = chat.read(0);
 		
-		if (c == null) {			
+		if (c == null) {
+			
+			StructureModifier<BaseComponent[]> modifier = e.getPacket().getSpecificModifier(BaseComponent[].class);
+			
+			BaseComponent[] components = modifier.readSafely(0);
+			
+			if (components == null) {
+				return;
+			}
+			
+			String msg = ComponentSerializer.toString(components);
+			
+			if (msg == null) {
+				return;
+			}
+			
+			if (!PlaceholderAPI.getPlaceholderPattern().matcher(msg).find()) {
+				return;
+			}
+			
+			msg = PlaceholderAPI.setPlaceholders(e.getPlayer(), msg);
+			
+			modifier.write(0, ComponentSerializer.parse(msg));
+			
 			return;	
 		}
 			

@@ -51,7 +51,11 @@ public class ChatListener implements Listener {
 		
 		e.setMessage(message);
 		
-		String format = e.getFormat().replace("{", "%").replace("}", "%");
+		String format = e.getFormat();
+		
+		System.out.println(format);
+		
+		format = format.replace("{", "%").replace("}", "%");
 		
 		matcher = PlaceholderAPI.getPlaceholderPattern().matcher(format);
 		
